@@ -23,7 +23,9 @@ jobs:
 
       - name: APK olustur
         run: |
-          ls -la app/src/main/
+                    pwd
+          ls -la
+          find . -name AndroidManifest.xml
           gradle clean assembleDebug --no-build-cache
 
       - name: APK dosyasini sakla
