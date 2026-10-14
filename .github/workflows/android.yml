@@ -8,6 +8,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Kaynak kodlarini al
         uses: actions/checkout@v4
@@ -21,12 +22,11 @@ jobs:
       - name: Android SDK kur
         uses: android-actions/setup-android@v4
 
+      - name: Klasorleri kontrol et
+        run: find . -name AndroidManifest.xml
+
       - name: APK olustur
-        run: |
-                    pwd
-          ls -la
-          find . -name AndroidManifest.xml
-          gradle clean assembleDebug --no-build-cache
+        run: gradle clean assembleDebug --no-build-cache
 
       - name: APK dosyasini sakla
         uses: actions/upload-artifact@v4
