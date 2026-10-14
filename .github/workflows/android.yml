@@ -19,7 +19,7 @@ jobs:
           java-version: '17'
 
       - name: Android SDK kur
-        uses: android-actions/setup-android@v3
+        uses: android-actions/setup-android@v4
 
       - name: APK olustur
         run: gradle assembleDebug
