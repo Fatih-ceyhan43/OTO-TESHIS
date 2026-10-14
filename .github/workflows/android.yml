@@ -21,7 +21,7 @@ jobs:
       - name: Android SDK kur
         uses: android-actions/setup-android@v4
 
-            - name: APK olustur
+      - name: APK olustur
         run: |
           ls -la app/src/main/
           gradle clean assembleDebug --no-build-cache
