@@ -22,7 +22,7 @@ jobs:
         uses: android-actions/setup-android@v4
 
       - name: APK olustur
-        run: gradle assembleDebug
+        run: gradle assembleDebug--no-build-cache
 
       - name: APK dosyasini sakla
         uses: actions/upload-artifact@v4
