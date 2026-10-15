@@ -1,3 +1,4 @@
+
 name: OTO TESHIS APK
 
 on:
@@ -22,14 +23,33 @@ jobs:
       - name: Android SDK kur
         uses: android-actions/setup-android@v4
 
-      - name: Klasorleri kontrol et
-        run: find . -name AndroidManifest.xml
+      - name: Klasorleri duzelt ve kontrol et
+        run: |
+          echo "Mevcut klasorler:"
+          find app/src -maxdepth 3 -print
+
+          if [ -d "app/src/main " ]; then
+            mkdir -p app/src/main
+            cp -a "app/src/main /." "app/src/main/"
+          fi
+
+          test -f app/src/main/AndroidManifest.xml
+          test -f app/src/main/java/tr/com/kaldirac/ototeshis/MainActivity.java
+          test -f app/src/main/assets/index.html
 
       - name: APK olustur
         run: gradle clean assembleDebug --no-build-cache
+
+      - name: APK icerigini kontrol et
+        run: |
+          APK=app/build/outputs/apk/debug/app-debug.apk
+          test -f "$APK"
+          unzip -l "$APK" | grep -q "assets/index.html"
+          unzip -l "$APK" | grep -q "classes.dex"
 
       - name: APK dosyasini sakla
         uses: actions/upload-artifact@v4
         with:
           name: OTO-TESHIS-APK
           path: app/build/outputs/apk/debug/*.apk
+          
