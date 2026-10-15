@@ -23,19 +23,24 @@ jobs:
       - name: Android SDK kur
         uses: android-actions/setup-android@v4
 
-      - name: Klasorleri duzelt ve kontrol et
+      - name: Klasorleri ve logoyu duzelt
         run: |
-          echo "Mevcut klasorler:"
-          find app/src -maxdepth 3 -print
+          mkdir -p app/src/main/assets
+          mkdir -p app/src/main/res/drawable-nodpi
 
           if [ -d "app/src/main " ]; then
-            mkdir -p app/src/main
-            cp -a "app/src/main /." "app/src/main/"
+            cp -a "app/src/main /." app/src/main/
+          fi
+
+          ICON=$(find app/src -type f -name app_icon.png -print -quit)
+          if [ -n "$ICON" ]; then
+            cp "$ICON" app/src/main/res/drawable-nodpi/app_icon.png
           fi
 
           test -f app/src/main/AndroidManifest.xml
           test -f app/src/main/java/tr/com/kaldirac/ototeshis/MainActivity.java
           test -f app/src/main/assets/index.html
+          test -f app/src/main/res/drawable-nodpi/app_icon.png
 
       - name: APK olustur
         run: gradle clean assembleDebug --no-build-cache
@@ -50,6 +55,6 @@ jobs:
       - name: APK dosyasini sakla
         uses: actions/upload-artifact@v4
         with:
-          name: OTO-TESHIS-APK
+          name: VECTRA-GT-APK
           path: app/build/outputs/apk/debug/*.apk
           
